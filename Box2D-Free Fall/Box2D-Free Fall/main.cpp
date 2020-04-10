@@ -43,7 +43,7 @@ b2Body* CreateBox2DRect(int x, int y, int hx, int hy, bool isDynamic, int densit
      b2FixtureDef fixturedef;
      fixturedef.shape = &shape;
      fixturedef.density = density;
-    fixturedef.friction = friction;
+     fixturedef.friction = friction;
      body->CreateFixture(&fixturedef);
     
     return body;
@@ -86,7 +86,10 @@ void Display()
     }
 }
 
-
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    CreateBox2DRect(5, 15, 1, 1, true, 1, 0.2);
+}
 
 // MARK: - Main Function
 
@@ -145,7 +148,8 @@ int main(){
     // MARK: - Box2D Physics Bodies Initilialisation
     //Ground Plane
     CreateBox2DRect(0, -10, 50, 10, false, 1, 0.2);
-
+    //create dynami box here
+    CreateBox2DRect(5, 15, 1, 1, true, 1, 0.2);
     
     // MARK: - Game Loop
     
@@ -169,7 +173,8 @@ int main(){
 // MARK: Render Graphics and Update Physics here
        Display();
      
-       
+       glfwSetCursorPosCallback(window, cursor_position_callback);
+
        
        
      
