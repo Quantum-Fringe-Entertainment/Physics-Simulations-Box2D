@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		87960DE324402C1E006956C2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87960DE224402C1E006956C2 /* main.cpp */; };
 		87BDB0E42440AB9F00B11CB6 /* libbox2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87BDB0E32440AB9F00B11CB6 /* libbox2d.a */; };
+		87BDB0E72440E2F200B11CB6 /* b2GLDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87BDB0E52440E2F200B11CB6 /* b2GLDraw.cpp */; };
 		87C1508424405E61003A7037 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C1508324405E61003A7037 /* OpenGL.framework */; };
 		87C1508624405F9A003A7037 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C1508524405F9A003A7037 /* libGLEW.2.1.0.dylib */; };
 		87C1508824405FB5003A7037 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C1508724405FB5003A7037 /* libglfw.3.3.dylib */; };
@@ -30,6 +31,8 @@
 		87960DDF24402C1E006956C2 /* Box2D-Free Fall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Box2D-Free Fall"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87960DE224402C1E006956C2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		87BDB0E32440AB9F00B11CB6 /* libbox2d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbox2d.a; path = ExternalLibraries/Box2D/lib/libbox2d.a; sourceTree = "<group>"; };
+		87BDB0E52440E2F200B11CB6 /* b2GLDraw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = b2GLDraw.cpp; sourceTree = "<group>"; };
+		87BDB0E62440E2F200B11CB6 /* b2GLDraw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = b2GLDraw.hpp; sourceTree = "<group>"; };
 		87C1508324405E61003A7037 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		87C1508524405F9A003A7037 /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../../../../../usr/local/Cellar/glew/2.1.0_1/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
 		87C1508724405FB5003A7037 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
@@ -73,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				87960DE224402C1E006956C2 /* main.cpp */,
+				87BDB0E52440E2F200B11CB6 /* b2GLDraw.cpp */,
+				87BDB0E62440E2F200B11CB6 /* b2GLDraw.hpp */,
 			);
 			path = "Box2D-Free Fall";
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87BDB0E72440E2F200B11CB6 /* b2GLDraw.cpp in Sources */,
 				87960DE324402C1E006956C2 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
