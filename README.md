@@ -1,4 +1,4 @@
-# Physucs-Simulation-Box2D
+# Physics-Simulations-Box2D
 Simple physics simulation of 1D and 2D motion using the Box2D library.
 
 * Motion in 1D
@@ -37,4 +37,5 @@ Simple physics simulation of 1D and 2D motion using the Box2D library.
   * Spring Wave
 
 * Experiments
-  * Havana Song Synth   
+  * Blinding lights Song Synth   
+  * Starboy Song Synth   
