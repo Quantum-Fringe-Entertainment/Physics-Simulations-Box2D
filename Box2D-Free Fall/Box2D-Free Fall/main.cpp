@@ -17,11 +17,11 @@
 #include "b2GLDraw.hpp"
 
 
-#define WIDTH 500
-#define HEIGHT 500
+#define WIDTH 800
+#define HEIGHT 550
 int screenWidth, screenHeight;
 //Since Box2D uses MKS system hame proper conversion karna hai pixels se meters aour peche se bhi.
-const float M2P = 30;
+const float M2P = 34;
 const float P2M = 1/M2P;
 //Define the gravity vector.
 b2Vec2 gravity(0.0f, -5.0f);
@@ -150,7 +150,7 @@ int main(){
     //Ground Plane
     CreateBox2DRect(0, -25, 50, 5, false, 1, 0.2);
     //create dynami box here
-    CreateBox2DRect(0, 25, 5, 5, false, 1, 0.2);
+    CreateBox2DRect(0, 20, 5, 5, false, 1, 0.2);
     CreateBox2DRect(24, 24, 5, 5, false, 1, 0.2);
 
     b2GLDraw debugInstance;
@@ -204,11 +204,17 @@ int main(){
 static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
 //    CreateBox2DRect( (10) , (10), 1, 1, true, 1, 0.2);
-    CreateBox2DRect((xpos - (WIDTH/2))/10 * 2, -(ypos - (HEIGHT/2))/10 , 1, 1, true, 1, 0.2);
     std::cout << xpos << ", " << ypos << std::endl;
-    std::cout << (xpos - (WIDTH/2))/10 * 2<< " : " << -(ypos - (HEIGHT/2))/10 << std::endl;
+    std::cout << (xpos - (WIDTH/2)) << " : " << -(ypos - (HEIGHT/2)) << std::endl;
 //    std::cout << (xpos - (WIDTH/2))*P2M << ", " << (ypos - (HEIGHT/2))*P2M  << std::endl;
     
     
+    std::cout << ((xpos - (WIDTH/2)) * M2P) / (WIDTH / 2) << " :: " << (-(ypos - (HEIGHT/2)) * M2P) / (HEIGHT / 2) << std::endl;
+
+    double xx = ((xpos - (WIDTH/2)) * M2P) / (WIDTH / 2);
+    double yy = (-(ypos - (HEIGHT/2)) * M2P) / (HEIGHT / 2) ;
+    
+        CreateBox2DRect( xx , yy, 1, 1, true, 1, 0.2);
+
     
 }
