@@ -6,8 +6,9 @@
 //  Copyright © 2020 phani srikar. All rights reserved.
 //
 
-#include <iostream>
 
+//MARK: Includes
+#include <iostream>
 //GLEW
 #include <GL/glew.h>
 //GLEW - V3
@@ -16,7 +17,7 @@
 #include <box2d/box2d.h>
 #include "b2GLDraw.hpp"
 
-
+//MARK: Gloabl Varibales
 #define WIDTH 800
 #define HEIGHT 550
 int screenWidth, screenHeight;
@@ -27,6 +28,12 @@ const float P2M = 1/M2P;
 b2Vec2 gravity(0.0f, -5.0f);
 // Construct a world object, which will hold and simulate the rigid bodies.
 b2World world(gravity);
+
+//MARK: Function Declarations
+
+static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
+
+
 
 // MARK: - Box2D object creation Function
 b2Body* CreateBox2DRect(double x, double y, double hx, double hy, bool isDynamic, double density, double friction)
@@ -48,7 +55,7 @@ b2Body* CreateBox2DRect(double x, double y, double hx, double hy, bool isDynamic
      body->CreateFixture(&fixturedef);
     
     return body;
-}
+}//CreateBox2DRect
 
 
 // MARK: - OpenGl object Rendering Function
@@ -66,7 +73,7 @@ void RenderRect(b2Vec2* points,b2Vec2 center,float angle)//Rendering is done usi
                             glVertex2f(points[i].x ,points[i].y );
                 glEnd();
         glPopMatrix();
-}
+}//RenderRect
 
 
 
@@ -88,13 +95,10 @@ void Display()
         RenderRect(points, tmp->GetWorldCenter(), tmp->GetAngle());
         tmp=tmp->GetNext();
     }
-}
+}//Display
 
-static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
 
 // MARK: - Main Function
-
-
 int main(){
     // MARK: - OpenGL Initiliasation and Setup
 
@@ -104,7 +108,7 @@ int main(){
     
     //chalo now let's init GLFW here
     glfwInit();
-
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//Diabled Re-sizing of window
 
     
     //now time to create the window
@@ -139,20 +143,23 @@ int main(){
           return -1;
     }
 
+    glViewport(0, 0, screenWidth, screenHeight);//To maintain a consistent pixel density on all types of screens
     
-    glViewport(0, 0, screenWidth, screenHeight);
-    //Input handlinn and call habacks here
+    
+    //MARK: - Input Event Systems and Callbacks
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-    glfwSetCursorPosCallback(window, CursorPositionCallback);
-    
+    glfwSetCursorPosCallback(window, CursorPositionCallback);//Mouse Event call Back funciton
+
     
     // MARK: - Box2D Physics Bodies Initilialisation
     //Ground Plane
-    CreateBox2DRect(0, -25, 50, 5, false, 1, 0.2);
-    //create dynami box here
+    CreateBox2DRect(0, -25, 50, 5, false, 1, 0.2);//Ground Plane
+    //create dynamic box here
     CreateBox2DRect(0, 20, 5, 5, false, 1, 0.2);
     CreateBox2DRect(24, 24, 5, 5, false, 1, 0.2);
-
+    
+    
+    //MARK: - Box2D Debugging
     b2GLDraw debugInstance;
          world.SetDebugDraw(&debugInstance);
          uint32_t flags = 0;
@@ -163,14 +170,14 @@ int main(){
 //         flags += b2Draw::e_centerOfMassBit;
          debugInstance.SetFlags(flags);
     
-    // MARK: - Game Loop
     
-    glfwSetCursorPosCallback(window, CursorPositionCallback);
+    
+    // MARK: - Game Loop
+
 
    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
     glfwWindowShouldClose(window) == 0 ){
-           // Check if any events have been activiated (key pressed,
-           //mouse moved etc.) and call corresponding response functions
+     
 
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -183,38 +190,39 @@ int main(){
                int32 positionIterations = 2;
        
                world.Step(timeStep, velocityIterations, positionIterations);//Physics Update
-// MARK: Render Graphics and Update Physics here
+// MARK: - Render Graphics and Update Physics here
        
-       world.DebugDraw();
-       Display();
+       world.DebugDraw();//Used to draw debug data of physics world.
+       
+       Display();//Render Update Function.
+       
      
 
  
           glfwSwapBuffers(window);//IDK why this is used.
         //This function swaps the front and back buffers of the specified window. If the swap interval is greater than zero, the GPU driver waits the specified number of screen updates before swapping the buffers.
         //https://www.glfw.org/docs/3.0/group__context.html#ga15a5a1ee5b3c2ca6b15ca209a12efd14
+       
+       // Check if any events have been activiated (key pressed,
+            //mouse moved etc.) and call corresponding response functions
        glfwPollEvents();
 
-    }
+    }//Game Loop
+
     glfwTerminate();
 
     return 0;
-}
+}//Main Function
 
+//MARK: Spawn Funciton
+//using mouse Movement for triggering the spawning
 static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
-//    CreateBox2DRect( (10) , (10), 1, 1, true, 1, 0.2);
-    std::cout << xpos << ", " << ypos << std::endl;
-    std::cout << (xpos - (WIDTH/2)) << " : " << -(ypos - (HEIGHT/2)) << std::endl;
-//    std::cout << (xpos - (WIDTH/2))*P2M << ", " << (ypos - (HEIGHT/2))*P2M  << std::endl;
-    
-    
-    std::cout << ((xpos - (WIDTH/2)) * M2P) / (WIDTH / 2) << " :: " << (-(ypos - (HEIGHT/2)) * M2P) / (HEIGHT / 2) << std::endl;
-
+    //Tranlatoin of origin from top-left to center and scaling of the Screen Axis to Box2D world.
     double xx = ((xpos - (WIDTH/2)) * M2P) / (WIDTH / 2);
     double yy = (-(ypos - (HEIGHT/2)) * M2P) / (HEIGHT / 2) ;
     
-        CreateBox2DRect( xx , yy, 1, 1, true, 1, 0.2);
+    CreateBox2DRect( xx , yy, 3, 3, true, 0.2, 0.2);
 
     
-}
+}//CursorPositionCallback
