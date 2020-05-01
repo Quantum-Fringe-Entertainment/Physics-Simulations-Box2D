@@ -2,14 +2,14 @@
 Simple physics simulation of 1D and 2D motion using the Box2D library.
 
 * Motion in 1D
-  * Ball in Free Fall 
+  * Ball in Free Fall :white_check_mark:
   * Landing a rocket
   * Relative velocity: race on a moving sidewalk
 
 * Motion in 2D
   * Race between a dropped ball and one launched horizontally
   * A ballistics cart
-  * Projectile Motion 
+  * Projectile Motion
   * The monkey and the hunter
   * Motion with Constant Acceleration
 
@@ -31,11 +31,16 @@ Simple physics simulation of 1D and 2D motion using the Box2D library.
 
 * Harmonic Motion
   * Pendulum   
-  * Double Pendulum 
+  * Double Pendulum
   * Spring Pendulum   
-  * Pendulum - with Damping 
+  * Pendulum - with Damping
   * Spring Wave
 
 * Experiments
   * Blinding lights Song Synth   
   * Starboy Song Synth   
+
+# Demo
+  * Free Fall
+  
+  ![](DemoGifs/Box2DFreeFall.gif)
