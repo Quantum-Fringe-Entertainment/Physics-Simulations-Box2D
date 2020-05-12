@@ -43,4 +43,4 @@ Simple physics simulation of 1D and 2D motion using the Box2D library.
 # Demo
   * Free Fall
   
-  ![](DemoGifs/Box2DFreeFall.gif)
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="400">
