@@ -1,6 +1,13 @@
 # Physics-Simulations-Box2D
 Simple physics simulation of 1D and 2D motion using the Box2D library.
 
+# Contributing
+
+Please look at the [Contributing Guidelines](https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/CONTRIBUTING.md) if you wish to contribute for this project.
+
+***
+# Simulations List
+
 * Motion in 1D
   * Ball in Free Fall :white_check_mark:
   * Landing a rocket
@@ -36,11 +43,17 @@ Simple physics simulation of 1D and 2D motion using the Box2D library.
   * Pendulum - with Damping
   * Spring Wave
 
-* Experiments
+* Song synth Experiments
   * Blinding lights Song Synth   
   * Starboy Song Synth   
 
-# Demo
+# Demos
   * Free Fall
   
   <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="400">
+
+***
+
+# License
+
+Physics Simulations Box2D is available under the MIT license. See the [LICENSE](https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/LICENSE) file for more info.
