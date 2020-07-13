@@ -52,7 +52,7 @@ If you want to just play with the simulations on Mac have a look at the the [Rel
 # Demos
   * Free Fall
   
-  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="400">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="200">
 
 ***
 
