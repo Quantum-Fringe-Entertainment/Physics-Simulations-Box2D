@@ -185,7 +185,7 @@ int main(){
        
        //  Instruct the world to perform a single step of simulation.
        //         It is generally best to keep the time step and iterations fixed.
-               float timeStep = 1.0f / 60.0f;
+               float timeStep = 1.0f / 60.0f; // Physics time step
                int32 velocityIterations = 6;
                int32 positionIterations = 2;
        
