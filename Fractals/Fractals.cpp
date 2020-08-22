@@ -90,7 +90,7 @@ int main(int argc, char const *argv[]) {
 
 
 
-    Shader mandlebrotShader("default.vert", "julia.frag");
+    Shader mandlebrotShader("default.vert", "mandlebrot.frag");
 
     GLfloat points[] = {
        -1.0f,  1.0f,  0.0f,
