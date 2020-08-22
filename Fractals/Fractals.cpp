@@ -11,7 +11,7 @@
 
 int Width = 800, Height = 600;
 double cx = -1.0, cy = -0.5, zoom = 1.0; /* Camera position and zoom value */
-int iterations = 100; /* Number of iterations */
+int iterations = 300; /* Number of iterations */
 
 bool keys[1024] = { 0 };
 
@@ -69,7 +69,7 @@ int main(int argc, char const *argv[]) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     GLFWwindow* window;
-    window = glfwCreateWindow(Width, Height, "The Mandelbrot Set", NULL, NULL);
+    window = glfwCreateWindow(Width, Height, "Fractals", NULL, NULL);
     if(!window){
         std::cerr << "Could Not initialise Window" << '\n';
         glfwTerminate();
@@ -90,7 +90,7 @@ int main(int argc, char const *argv[]) {
 
 
 
-    Shader mandlebrotShader("mandlebrot.vert", "mandlebrot.frag");
+    Shader mandlebrotShader("default.vert", "julia.frag");
 
     GLfloat points[] = {
        -1.0f,  1.0f,  0.0f,
@@ -132,7 +132,7 @@ int main(int argc, char const *argv[]) {
 
 
 
-        glClearColor(0.4, 0.4, 1, 1);
+        glClearColor(1, 1, 1, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUniform2d(glGetUniformLocation(mandlebrotShader.Program, "screen_size"), (double)Width, (double)Height);

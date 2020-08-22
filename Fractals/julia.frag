@@ -9,9 +9,9 @@ uniform double zoom;
 uniform int itr;
 
 vec4 map_to_color(float t) {
-    float r = 24 * (1.0 - t) * t * t * t;
-    float g = 14 * (1.0 - t) * (1.0 - t) * t * t;
-    float b = 1 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t;
+    float r = 64 * (1.0 - t) * t * t * t;
+    float g = 32 * (1.0 - t) * (1.0 - t) * t * t;
+    float b = 5 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t;
 
     return vec4(r, g, b, 1.0);
 }
@@ -29,9 +29,9 @@ void main()
     c.y += center.y;
 
     int i;
-    for(i = 0; i < itr; i++) {
-        double x = (z.x * z.x - z.y * z.y) + c.x;
-		double y = (z.y * z.x + z.x * z.y) + c.y;
+    for(i = 0; i < itr; ++i) {
+        double x = ((z.x * z.x * z.x) - (3 * z.x * z.y *z.y)) + c.x ;
+		double y = ((3 * z.x * z.x * z.y) - ( z.y * z.y * z.y)) + c.y;
 
 		if((x * x + y * y) > 4.0) break;
 		z.x = x;
@@ -41,5 +41,4 @@ void main()
     double t = double(i) / double(itr);
 
     color = map_to_color(float(t));
-    // color = vec4(0.5, 1, 1, 1);
 }
