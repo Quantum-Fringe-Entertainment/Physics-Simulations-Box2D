@@ -50,7 +50,7 @@ If you want to just play with the simulations on Mac have a look at the the [Rel
   * Starboy Song Synth   
   
 * Fractals
-  * Mandlebrot Set and JuliaSet (fragment shaders in OpenGL)
+  * Mandlebrot Set and JuliaSet (fragment shaders in OpenGL) :white_check_mark:
 
 # Demos
   * Free Fall
