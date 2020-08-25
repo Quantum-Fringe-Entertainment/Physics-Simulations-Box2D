@@ -48,7 +48,7 @@ Please look at the [Contributing Guidelines](https://github.com/Quantum-Fringe-E
   * Starboy Song Synth   
   
 * Fractals
-  * Mandlebrot Set and JuliaSet (fragment shaders in OpenGL) :white_check_mark:
+  * Mandlebrot Set and Julia Set (using fragment shaders in OpenGL) :white_check_mark:
 
 # Demos
   * Free Fall
