@@ -5,8 +5,6 @@ Simple physics simulation of 1D and 2D motion using the Box2D library.
 
 Please look at the [Contributing Guidelines](https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/CONTRIBUTING.md) if you wish to contribute for this project.
 
-# Releases
-If you want to just play with the simulations on Mac have a look at the the [Releases](https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/releases) section to download the Mac executables.
 ***
 # Simulations List
 
