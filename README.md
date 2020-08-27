@@ -51,12 +51,11 @@ Please look at the [Contributing Guidelines](https://github.com/Quantum-Fringe-E
   * Mandlebrot Set and Julia Set (using fragment shaders in OpenGL) :white_check_mark:
 
 # Demos
-  * Free Fall
-
-  <p>
-  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="400">
-  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Julia.png" width="400">
-  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Mandlebrot.png" width="400">
+ 
+  <p float="left">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="200">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Julia.png" width="200">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Mandlebrot.png" width="200">
   </p>
 
 ***
