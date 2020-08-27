@@ -52,8 +52,12 @@ Please look at the [Contributing Guidelines](https://github.com/Quantum-Fringe-E
 
 # Demos
   * Free Fall
-  
+
+  <p>
   <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="400">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Julia.png" width="400">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Mandlebrot.png" width="400">
+  </p>
 
 ***
 

@@ -11,7 +11,7 @@ uniform int itr;
 vec4 map_to_color(float t) {
     float r = 24 * (1.0 - t) * t * t * t;
     float g = 14 * (1.0 - t) * (1.0 - t) * t * t;
-    float b = 1 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t;
+    float b = 6 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t;
 
     return vec4(r, g, b, 1.0);
 }
