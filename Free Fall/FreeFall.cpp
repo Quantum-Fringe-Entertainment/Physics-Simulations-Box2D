@@ -159,10 +159,9 @@ int main(int argc, char const *argv[]) {
 
     Shader defaultShader("../default.vert", "../default.frag");
 
+    CreateBox2DRect(20, -25, 10, 2, true, 1, 0.2);
 
-    CreateBox2DRect(20, 25, 10, 5, true, 1, 0.2);
-    // CreateBox2DRect(0, 10, 10, 5, false, 1, 0.2);
-
+    b2Body* currBody = world.GetBodyList();
 
 
     while (!glfwWindowShouldClose(window)) {
@@ -172,6 +171,10 @@ int main(int argc, char const *argv[]) {
         int32 positionIterations = 2;
 
         world.Step(timeStep, velocityIterations, positionIterations);//Physics Update
+        // currBody->ApplyForce(b2Vec2(0, 2), currBody->GetWorldCenter(), GL_TRUE);
+
+
+        // currBody = currBody->GetNext();
 
         GetPhyBodiesToRender(&defaultShader);
 

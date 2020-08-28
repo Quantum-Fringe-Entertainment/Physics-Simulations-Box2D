@@ -1,5 +1,6 @@
 #version 330 core
 
+// in vec4 opColor;
 
 out vec4 color;
 
