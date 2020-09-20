@@ -162,6 +162,7 @@ int main(int argc, char const *argv[]) {
     CreateBox2DRect(20, -25, 10, 2, true, 1, 0.2);
 
     b2Body* currBody = world.GetBodyList();
+    // currBody->ApplyForce(b2Vec2(0, 20), currBody->GetWorldCenter(), GL_TRUE);
 
 
     while (!glfwWindowShouldClose(window)) {
@@ -171,7 +172,7 @@ int main(int argc, char const *argv[]) {
         int32 positionIterations = 2;
 
         world.Step(timeStep, velocityIterations, positionIterations);//Physics Update
-        // currBody->ApplyForce(b2Vec2(0, 2), currBody->GetWorldCenter(), GL_TRUE);
+        currBody->ApplyForce(b2Vec2(0, 2), currBody->GetWorldCenter(), GL_TRUE);
 
 
         // currBody = currBody->GetNext();
