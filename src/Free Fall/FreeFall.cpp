@@ -55,19 +55,20 @@ void RenderPhysicsBodies(b2Vec2* points,b2Vec2 center,float angle, Shader* shade
         points[2].x, points[2].y,
         points[1].x, points[1].y
     };
+
     // for(int i = 0; i < 8 ; i++){
     //     vertices[i] = i % 2 == 0 ? points[(GLint)i / 2].x : points[(GLint)i / 2].y;
     // }
     // for(int i = 0; i < 8 ; i++){
     //     std::cout << vertices[i] << '\n';
     // }
+
     GLfloat quadVertices[] = {
         -0.5,   0.5,
         -0.5,  -0.5,
          0.5,   0.5,
          0.5,  -0.5
     };
-
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -157,12 +158,13 @@ int main(int argc, char const *argv[]) {
     glViewport(0, 0, Width, Height);
 
 
-    Shader defaultShader("../default.vert", "../default.frag");
+    Shader defaultShader("default.vert", "default.frag");
 
+    CreateBox2DRect(20, 125, 10, 2, true, 1, 0.2);
+    CreateBox2DRect(0, -25, 60, 4, false, 1, 0.2);
 
-    CreateBox2DRect(20, 25, 10, 5, true, 1, 0.2);
-    // CreateBox2DRect(0, 10, 10, 5, false, 1, 0.2);
-
+    b2Body* currBody = world.GetBodyList();
+    // currBody->ApplyForce(b2Vec2(0, 20), currBody->GetWorldCenter(), GL_TRUE);
 
 
     while (!glfwWindowShouldClose(window)) {
@@ -172,6 +174,10 @@ int main(int argc, char const *argv[]) {
         int32 positionIterations = 2;
 
         world.Step(timeStep, velocityIterations, positionIterations);//Physics Update
+        // currBody->ApplyForce(b2Vec2(0, 2), currBody->GetWorldCenter(), GL_TRUE);
+
+
+        // currBody = currBody->GetNext();
 
         GetPhyBodiesToRender(&defaultShader);
 
@@ -195,7 +201,6 @@ int main(int argc, char const *argv[]) {
     return EXIT_SUCCESS;
 }
 
-// clang++ -std=c++17 -framework OpenGL -I /Users/phanisrika
-// r/Desktop/Physics-Simulations-Box2D/ExternalLibraries/Box2D/include -I /Users/phanisrikar/Libraries
-// -L /Users/phanisrikar/Desktop/Physics-Simulations-Box2D/ExternalLibraries/Box2D/lib -lglew -lglfw -l
-// box2d FreeFall.cpp -o freefall &&./freefall
+// clang++ -std=c++17 -framework OpenGL -I /Users/phanisrikar/Desktop/Physics-Simulations-Box2D/Externa
+// lLibraries/Box2D/include -L /Users/phanisrikar/Desktop/Physics-Simulations-Box2D/ExternalLibraries/Box2D/lib -I /Users/phanisrikar/Desktop/Phys
+// ics-Simulations-Box2D/ExternalLibraries -lglew -lglfw -lbox2d FreeFall.cpp -o freefall && ./freefall

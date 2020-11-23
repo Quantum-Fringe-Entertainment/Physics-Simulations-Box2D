@@ -1,0 +1,6 @@
+[submodule "vendor/GLM"]
+	path = vendor/GLM
+	url = https://github.com/g-truc/glm
+[submodule "vendor/OpenGL-Abstractions"]
+	path = vendor/OpenGL-Abstractions
+	url = https://github.com/Pikachuxxxx/OpenGL-Abstractions
