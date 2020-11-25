@@ -46,14 +46,14 @@ Please look at the [Contributing Guidelines](https://github.com/Quantum-Fringe-E
 * Song synth Experiments
   * Blinding lights Song Synth   
   * Starboy Song Synth   
-  
+
 * Fractals
   * Mandlebrot Set and Julia Set (using fragment shaders in OpenGL) :white_check_mark:
 
 # Demos
- 
+
   <p float="left">
-  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Box2DFreeFall.gif" width="200">
+  <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/demo-gifs/freefall.gif" width="200">
   <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Julia.png" width="200">
   <img src="https://github.com/Quantum-Fringe-Entertainment/Physics-Simulations-Box2D/blob/master/DemoGifs/Mandlebrot.png" width="200">
   </p>
