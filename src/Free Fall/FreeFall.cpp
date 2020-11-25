@@ -1,134 +1,41 @@
-#include <iostream>
-// GLEW
-#define GLEW_STATIC
-#include <GL/glew.h>
-// GLFW
-#include <GLFW/glfw3.h>
-// GLM
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <stdlib.h>
+
+#include <Renderer.h>
 // Box2D
 #include <box2d/box2d.h>
-#include "../Shader.hpp"
-// Since Box2D uses MKS System
-const float M2P = 34;
-const float P2M = 1/M2P;
 
-b2Vec2 gravity(0.0f, -25.0f);
-b2World world(gravity);
+//------------------------------------------------------------------------------
+// Global Variable
+//------------------------------------------------------------------------------
+const int Width = 800, Height = 600;
 
-GLuint VAO, VBO;
+glm::vec2 cursorPosition;
+// View Projection
+glm::mat4 view(1.0f);
+glm::mat4 projection(1.0f);
 
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+Renderer renderer(view, projection);
 
-
-b2Body* CreateBox2DRect(double x, double y, double hx, double hy, bool isDynamic, double density, double friction)
+std::vector<Rigidbody2D> boxes;
+std::vector<glm::vec4> boxes_colors;
+//------------------------------------------------------------------------------
+// Functions
+//------------------------------------------------------------------------------
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+void mouse_position_callback(GLFWwindow* window, double xpos, double ypos);
+template <class T>
+T inline clamp(T number, T min, T max, T maxX, T minX)
 {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(x * P2M, y * P2M);
-
-    if(isDynamic)
-        bodyDef.type = b2_dynamicBody;
-
-    b2Body* body = world.CreateBody(&bodyDef);
-
-    b2PolygonShape shape;
-    shape.SetAsBox(P2M * hx, P2M * hy);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &shape;
-    fixtureDef.density = density;
-    fixtureDef.friction = friction;
-    body->CreateFixture(&fixtureDef);
-
-    return body;
+    return (max - min) * ((number - minX) / (maxX - minX)) + min;
 }
+//------------------------------------------------------------------------------
+// Main Funciton
+//------------------------------------------------------------------------------
+int main(int argc, char const *argv[])
+{
+    srand(1);
 
-void RenderPhysicsBodies(b2Vec2* points,b2Vec2 center,float angle, Shader* shader){
-
-    GLfloat vertices[8] = {
-        points[3].x, points[3].y,
-        points[0].x, points[0].y,
-        points[2].x, points[2].y,
-        points[1].x, points[1].y
-    };
-
-    // for(int i = 0; i < 8 ; i++){
-    //     vertices[i] = i % 2 == 0 ? points[(GLint)i / 2].x : points[(GLint)i / 2].y;
-    // }
-    // for(int i = 0; i < 8 ; i++){
-    //     std::cout << vertices[i] << '\n';
-    // }
-
-    GLfloat quadVertices[] = {
-        -0.5,   0.5,
-        -0.5,  -0.5,
-         0.5,   0.5,
-         0.5,  -0.5
-    };
-
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    // Apply Transformations here
-    glm::mat4 model(1.0f), view(1.0f), projection(1.0f);
-    // std::cout << "X center is :" << center.x << "Y center is :" << center.y << '\n';
-    model = glm::translate(model, glm::vec3(center.x, center.y, 0.0f));
-    model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-    // GLfloat radius = 10.0f;
-    // GLfloat camX = sin(glfwGetTime()) * radius;
-    // GLfloat camZ = cos(glfwGetTime()) * radius;
-    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
-    glUniformMatrix4fv(glGetUniformLocation(shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(glGetUniformLocation(shader->Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(shader->Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
-}
-
-void GetPhyBodiesToRender(Shader* shader){
-
-    b2Body* currBody = world.GetBodyList();
-    b2Vec2 points[4];
-    while (currBody){
-        for(int i=0;i<4;i++)
-        {
-            points[i] = ((b2PolygonShape*)currBody->GetFixtureList()->GetShape())->m_vertices[i];
-        }
-        RenderPhysicsBodies(points, currBody->GetWorldCenter(), currBody->GetAngle(), shader);
-        currBody = currBody->GetNext();
-    }
-}
-
-
-
-void glfw_initialisation_error(int error, const char* description){
-    std::cerr << "ERROR::INITIALISATION::GLFW::" << error << "::DESCRIPTION::" << description << std::endl;
-}
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
-        std::cout << "Escape Key Pressed..." << '\n';
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-    }
-}
-int main(int argc, char const *argv[]) {
-
-    const int Width = 800, Height = 600;
-
-    glfwSetErrorCallback(glfw_initialisation_error);
     if(!glfwInit())
         return EXIT_FAILURE;
 
@@ -138,7 +45,7 @@ int main(int argc, char const *argv[]) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     GLFWwindow* window;
-    window = glfwCreateWindow(Width, Height, "OpenGL Window", NULL, NULL);
+    window = glfwCreateWindow(Width, Height, "Free Fall Simulation", NULL, NULL);
     if(!window){
         std::cerr << "Could Not initialise Window" << '\n';
         glfwTerminate();
@@ -148,6 +55,8 @@ int main(int argc, char const *argv[]) {
 
     /* GLFW Callbacks */
     glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetCursorPosCallback(window, mouse_position_callback);
 
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK){
@@ -156,43 +65,84 @@ int main(int argc, char const *argv[]) {
     }
 
     glViewport(0, 0, Width, Height);
+//------------------------------------------------------------------------------
+// OpenGL Data and Setup
+//------------------------------------------------------------------------------
 
+    float quadVertices[] = {
+        -1.0f, -1.0f,
+        -1.0f,  1.0f,
+         1.0f,  1.0f,
+         1.0f, -1.0f
+    };
 
-    Shader defaultShader("default.vert", "default.frag");
+    unsigned int quadIndices[]=
+    {
+        0, 1, 2,
+        2, 3, 0
+    };
 
-    CreateBox2DRect(20, 125, 10, 2, true, 1, 0.2);
-    CreateBox2DRect(0, -25, 60, 4, false, 1, 0.2);
+    Shader defaultShader("res/shaders/default.vert", "res/shaders/default.frag");
 
-    b2Body* currBody = world.GetBodyList();
-    // currBody->ApplyForce(b2Vec2(0, 20), currBody->GetWorldCenter(), GL_TRUE);
+    VertexArray quad_VAO;
+    VertexBuffer quad_VBO(quadVertices, sizeof(quadVertices));
+    IndexBuffer quad_IBO(quadIndices, 6);
+    VertexBufferLayout quad_layout;
+    quad_layout.Push<float>(2);
+    quad_VAO.Bind();
+    quad_VBO.Bind();
+    quad_IBO.Bind();
+    quad_VAO.AddBuffer(quad_VBO, quad_layout);
+//------------------------------------------------------------------------------
+    Transform box_Transform;
+    box_Transform.scale = glm::vec3(10, 10, 1);
+    Rigidbody2D box(glm::vec3(0, 100, 0), glm::vec2(10, 10), 1.0f, 0.3f, Dynamic);
 
+    Transform plank_Transform;
+    plank_Transform.scale = glm::vec3(80, 5, 1);
+    Rigidbody2D plank(glm::vec3(0, -60, 0), glm::vec2(80, 5), 1.0f, 1.0f, Static);
 
-    while (!glfwWindowShouldClose(window)) {
+//------------------------------------------------------------------------------
+    projection  = glm::ortho(-160.0f, +160.0f, -120.0f, +120.0f, -1.0f, +1.0f);
 
-        float timeStep = 1.0f / 60.0f; // Physics time step
-        int32 velocityIterations = 6;
-        int32 positionIterations = 2;
+    GLfloat currentFrame = 0.0f;
+    GLfloat deltaTime = 0.0f;
+    GLfloat lastFrame = 0.0f;
+    GLint FPS = 0;
 
-        world.Step(timeStep, velocityIterations, positionIterations);//Physics Update
-        // currBody->ApplyForce(b2Vec2(0, 2), currBody->GetWorldCenter(), GL_TRUE);
+//------------------------------------------------------------------------------
+// Game Loop
+//------------------------------------------------------------------------------
+    while (!glfwWindowShouldClose(window))
+    {
+        float timeStep = 1.0f / 20.0f;
+        int velocityIterations = 4;
+        int positionIterations = 3;
 
+        PhysicsWorld.Step(timeStep, velocityIterations, positionIterations);
 
-        // currBody = currBody->GetNext();
+        box_Transform.position = box.GetPositionInPixels();
+        box_Transform.rotation = glm::vec3(0, 0, box.GetRotation());
 
-        GetPhyBodiesToRender(&defaultShader);
+        plank_Transform.position = plank.GetPositionInPixels();
+        plank_Transform.rotation = glm::vec3(0, 0, plank.GetRotation());
 
         glfwPollEvents();
 
-        glClearColor(0, 0, 0, 1);
+        glClearColor(0.13, 0.13, 0.13, 1);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        defaultShader.SetUniform4f("u_Color", glm::vec4(1, 0, 0, 1));
+        renderer.draw_raw_indices(box_Transform, defaultShader, quad_VAO, quad_IBO);
+        defaultShader.SetUniform4f("u_Color", glm::vec4(1, 1, 0, 1));
+        renderer.draw_raw_indices(plank_Transform, defaultShader, quad_VAO, quad_IBO);
 
-        defaultShader.Use();
-
-
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        // glBindVertexArray(0);
+        for (int i = 0; i < boxes.size(); i++)
+        {
+            defaultShader.SetUniform4f("u_Color", boxes_colors[i]);
+            Transform rb_Transform(boxes[i].GetPositionInPixels(), glm::vec3(0, 0, boxes[i].GetRotation()), glm::vec3(10, 10, 1));
+            renderer.draw_raw_indices(rb_Transform, defaultShader, quad_VAO, quad_IBO);
+        }
 
         glfwSwapBuffers(window);
     }
@@ -200,7 +150,28 @@ int main(int argc, char const *argv[]) {
 
     return EXIT_SUCCESS;
 }
-
-// clang++ -std=c++17 -framework OpenGL -I /Users/phanisrikar/Desktop/Physics-Simulations-Box2D/Externa
-// lLibraries/Box2D/include -L /Users/phanisrikar/Desktop/Physics-Simulations-Box2D/ExternalLibraries/Box2D/lib -I /Users/phanisrikar/Desktop/Phys
-// ics-Simulations-Box2D/ExternalLibraries -lglew -lglfw -lbox2d FreeFall.cpp -o freefall && ./freefall
+//------------------------------------------------------------------------------
+// Function Definitions
+//------------------------------------------------------------------------------
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+}
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        Rigidbody2D rb(glm::vec3(cursorPosition.x, cursorPosition.y, 0), glm::vec2(10, 10), 0.6f, 1.0f, Dynamic);
+        boxes.push_back(rb);
+        boxes_colors.push_back(glm::vec4(((float) rand() / RAND_MAX), ((float) rand() / RAND_MAX), ((float) rand() / RAND_MAX), 1.0f));
+    }
+}
+void mouse_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    cursorPosition.x = clamp(xpos, -160.0, 160.0, 800.0, 0.0);
+    cursorPosition.y = clamp(ypos, -120.0, 120.0, 0.0, 600.0);
+}
+//------------------------------------------------------------------------------
