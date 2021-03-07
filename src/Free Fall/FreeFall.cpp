@@ -3,9 +3,8 @@
 #include <Renderer.h>
 // Box2D
 #include <box2d/box2d.h>
-
 //------------------------------------------------------------------------------
-// Global Variable
+// Global Variables
 //------------------------------------------------------------------------------
 const int Width = 800, Height = 600;
 
@@ -24,11 +23,6 @@ std::vector<glm::vec4> boxes_colors;
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void mouse_position_callback(GLFWwindow* window, double xpos, double ypos);
-template <class T>
-T inline clamp(T number, T min, T max, T maxX, T minX)
-{
-    return (max - min) * ((number - minX) / (maxX - minX)) + min;
-}
 //------------------------------------------------------------------------------
 // Main Funciton
 //------------------------------------------------------------------------------
@@ -68,7 +62,6 @@ int main(int argc, char const *argv[])
 //------------------------------------------------------------------------------
 // OpenGL Data and Setup
 //------------------------------------------------------------------------------
-
     float quadVertices[] = {
         -1.0f, -1.0f,
         -1.0f,  1.0f,
@@ -94,6 +87,8 @@ int main(int argc, char const *argv[])
     quad_IBO.Bind();
     quad_VAO.AddBuffer(quad_VBO, quad_layout);
 //------------------------------------------------------------------------------
+// Physics Bodies
+//------------------------------------------------------------------------------
     Transform box_Transform;
     box_Transform.scale = glm::vec3(10, 10, 1);
     Rigidbody2D box(glm::vec3(0, 100, 0), glm::vec2(10, 10), 1.0f, 0.3f, Dynamic);
@@ -103,34 +98,41 @@ int main(int argc, char const *argv[])
     Rigidbody2D plank(glm::vec3(0, -60, 0), glm::vec2(80, 5), 1.0f, 1.0f, Static);
 
 //------------------------------------------------------------------------------
+// Misc Setup
+//------------------------------------------------------------------------------
     projection  = glm::ortho(-160.0f, +160.0f, -120.0f, +120.0f, -1.0f, +1.0f);
 
     GLfloat currentFrame = 0.0f;
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;
     GLint FPS = 0;
-
 //------------------------------------------------------------------------------
 // Game Loop
 //------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(window))
     {
+        // Updating Physics loop
         float timeStep = 1.0f / 20.0f;
         int velocityIterations = 4;
         int positionIterations = 3;
 
         PhysicsWorld.Step(timeStep, velocityIterations, positionIterations);
 
+        // Clearing screen
+        glfwPollEvents();
+        glClearColor(0.13, 0.13, 0.13, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /*
+         * Render From here
+         * (Querying the Physics Engine for data and Passing it to OpenGL to render)
+         */
+
         box_Transform.position = box.GetPositionInPixels();
         box_Transform.rotation = glm::vec3(0, 0, box.GetRotation());
 
         plank_Transform.position = plank.GetPositionInPixels();
         plank_Transform.rotation = glm::vec3(0, 0, plank.GetRotation());
-
-        glfwPollEvents();
-
-        glClearColor(0.13, 0.13, 0.13, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
 
         defaultShader.SetUniform4f("u_Color", glm::vec4(1, 0, 0, 1));
         renderer.draw_raw_indices(box_Transform, defaultShader, quad_VAO, quad_IBO);
